@@ -2588,7 +2588,7 @@ dependencies = [
 
 [[package]]
 name = "rust-g"
-version = "3.10.0"
+version = "3.10.0-ss220"
 dependencies = [
  "aho-corasick",
  "ammonia",
@@ -3774,12 +3774,6 @@ dependencies = [
  "num_cpus",
  "parking_lot",
 ]
-
-[[package]]
-name = "write16"
-version = "1.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d1890f4022759daae28ed4fe62859b1236caebfc61ede2f63ed4e695f3f6d936"
 
 [[package]]
 name = "writeable"
