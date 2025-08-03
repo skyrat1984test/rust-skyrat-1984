@@ -18,6 +18,8 @@ pub mod acreplace;
 pub mod cellularnoise;
 #[cfg(feature = "dbpnoise")]
 pub mod dbpnoise;
+#[cfg(feature = "dice")]
+pub mod dice;
 #[cfg(feature = "dmi")]
 pub mod dmi;
 #[cfg(feature = "file")]
@@ -58,6 +60,8 @@ pub mod toml;
 pub mod unzip;
 #[cfg(feature = "url")]
 pub mod url;
+#[cfg(feature = "uuid")]
+pub mod uuid;
 #[cfg(feature = "worleynoise")]
 pub mod worleynoise;
 
