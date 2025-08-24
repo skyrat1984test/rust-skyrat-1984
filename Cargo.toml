@@ -13,7 +13,7 @@ description = "Offloaded task library for the /tg/ Space Station 13 codebase"
 rust-version = "1.81"
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "rlib"] # SS1984 EDIT, original: crate-type = ["cdylib"]
 
 [profile.release]
 opt-level = 3
