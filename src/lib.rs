@@ -5,9 +5,9 @@
 )] // see https://github.com/rust-lang/rust-clippy/issues/13422
 
 #[macro_use]
-mod byond;
+pub mod byond; // SS1984 EDIT, original: mod byond;
 #[allow(dead_code)]
-mod error;
+pub mod error; // SS1984 EDIT, original: mod error;
 
 #[cfg(feature = "jobs")]
 mod jobs;
