@@ -4,7 +4,7 @@ use dmi::{
     dirs::{Dirs, ALL_DIRS, CARDINAL_DIRS},
     icon::{dir_to_dmi_index, Icon, IconState},
 };
-use image::DynamicImage;
+use image::RgbaImage;
 use once_cell::sync::Lazy;
 use std::{fs::File, hash::BuildHasherDefault, io::BufReader, sync::Arc};
 use tracy_full::zone;
@@ -15,12 +15,21 @@ static ICON_STATES: Lazy<
     DashMap<UniversalIcon, Arc<UniversalIconData>, BuildHasherDefault<XxHash64>>,
 > = Lazy::new(|| DashMap::with_hasher(BuildHasherDefault::<XxHash64>::default()));
 
-pub fn image_cache_contains(icon: &UniversalIcon) -> bool {
-    ICON_STATES.contains_key(icon)
+static ICON_STATES_FLAT: Lazy<
+    DashMap<UniversalIcon, Arc<UniversalIconData>, BuildHasherDefault<XxHash64>>,
+> = Lazy::new(|| DashMap::with_hasher(BuildHasherDefault::<XxHash64>::default()));
+
+pub fn image_cache_contains(icon: &UniversalIcon, flatten: bool) -> bool {
+    if flatten {
+        ICON_STATES_FLAT.contains_key(icon)
+    } else {
+        ICON_STATES.contains_key(icon)
+    }
 }
 
 pub fn image_cache_clear() {
     ICON_STATES.clear();
+    ICON_STATES_FLAT.clear();
 }
 
 impl UniversalIcon {
@@ -37,7 +46,11 @@ impl UniversalIcon {
         zone!("universal_icon_to_image_data");
         if cached {
             zone!("check_image_cache");
-            if let Some(entry) = ICON_STATES.get(self) {
+            if let Some(entry) = if flatten {
+                ICON_STATES_FLAT.get(self)
+            } else {
+                ICON_STATES.get(self)
+            } {
                 return Ok((entry.value().to_owned(), true));
             }
             if must_be_cached {
@@ -128,7 +141,7 @@ impl UniversalIcon {
             frame_offset = 0;
         }
 
-        let mut images: Vec<DynamicImage> = Vec::new();
+        let mut images: Vec<RgbaImage> = Vec::new();
 
         for frame_index in frame_offset..(frame_offset + frames) {
             for dir_offset in dir_index..(dir_index + dirs) {
@@ -162,9 +175,17 @@ impl UniversalIcon {
     }
 }
 
-pub fn cache_transformed_images(uni_icon: &UniversalIcon, image_data: Arc<UniversalIconData>) {
+pub fn cache_transformed_images(
+    uni_icon: &UniversalIcon,
+    image_data: Arc<UniversalIconData>,
+    flatten: bool,
+) {
     zone!("cache_transformed_images");
-    ICON_STATES.insert(uni_icon.to_owned(), image_data.to_owned());
+    if flatten {
+        ICON_STATES_FLAT.insert(uni_icon.to_owned(), image_data.to_owned());
+    } else {
+        ICON_STATES.insert(uni_icon.to_owned(), image_data.to_owned());
+    }
 }
 
 /* ---- DMI CACHING ---- */
