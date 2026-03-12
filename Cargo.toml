@@ -1,7 +1,7 @@
 [package]
 name = "rust-g"
 edition = "2021" # do this during next breaking change
-version = "4.2.0-ss220"
+version = "4.2.0-celadon"
 authors = [
     "rust-g maintainer team",                   # current maintainers
     "Bjorn Neergaard <bjorn@neersighted.com>",  # original author
@@ -13,7 +13,7 @@ description = "Offloaded task library for the /tg/ Space Station 13 codebase"
 rust-version = "1.81" # do this during next breaking change
 
 [lib]
-crate-type = ["cdylib", "rlib"] # SS1984 EDIT, original: crate-type = ["cdylib"]
+crate-type = ["cdylib", "rlib"] # CELADON EDIT, original: crate-type = ["cdylib"]
 
 [profile.release]
 opt-level = 3
@@ -65,7 +65,7 @@ ammonia = { version = "4.1", optional = true }
 fast_poisson = { version = "1.0.2", optional = true, features = [
     "single_precision",
 ] } # Higher versions have problems with x86 due to 'kiddo'.
-workerpool = "1.2.1" # SS1984 ADDITION
+workerpool = "1.2.1" # CELADON ADDITION
 symphonia = { version = "0.5.5", optional = true, features = ["all-codecs"] }
 caith = { version = "4.2.4", optional = true }
 uuid = { version = "1.18", optional = true, features = [
